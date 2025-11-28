@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Archive Page</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Basic page setup */
+      body {
+        margin: 0;
+        padding: 0;
+        background-image:url(bg\ final\ 3\ f.png);
+        font-family: "Russo One", sans-serif;
+        padding: 80px 40px 40px 40px;
+      }
+
+      /* Page title */
+      .archive-title {
+        font-size: 60px;
+        color: #ff7a28;
+        margin-bottom: 20px;
+        text-align: left;
+      }
+
+      /* Back button */
+      .back-button {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        font-size: 20px;
+        color: white;
+        background-color: #ff7a28;
+        padding: 10px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        z-index: 100;
+      }
+
+      .back-button:hover {
+        transform: scale(1.1);
+      }
+
+      /* Grid container - creates the layout */
+      .archive-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+        grid-auto-rows: 200px; /* Each row is 200px tall */
+        gap: 20px; /* Space between boxes */
+        padding-bottom: 40px;
+      }
+
+      /* Individual work box */
+      .work-box {
+        background: black;
+        border-radius: 15px;
+        border: 2px solid #555;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        transition: all 0.4s ease;
+      }
+
+      /* Different sized boxes */
+      .large {
+        grid-column: span 2; /* Takes 2 columns */
+        grid-row: span 2; /* Takes 2 rows */
+      }
+
+      .tall {
+        grid-row: span 2; /* Takes 2 rows */
+      }
+
+      .wide {
+        grid-column: span 2; /* Takes 2 columns */
+      }
+
+      /* When hovering over a box - it grows */
+      .work-box:hover {
+        transform: scale(1.05);
+        border-color: #ff7a28;
+        z-index: 5;
+      }
+
+      .work-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.6;
+        transition: opacity 0.4s ease;
+      }
+
+      /* Image becomes brighter on hover */
+      .work-box:hover .work-image {
+        opacity: 1;
+      }
+
+      /* Box content (work name) - hidden initially */
+      .box-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      /* Show content on hover */
+      .work-box:hover .box-content {
+        opacity: 1;
+      }
+
+      .work-name {
+        color: #ff7a28;
+        font-size: 20px;
+        margin: 0;
+      }
+
+      /* Modal overlay (dark background) */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      /* Show modal */
+      .modal-overlay.show {
+        display: flex;
+      }
+
+      /* Modal content box (3/4 of page) */
+      .modal-content {
+        width: 75%;
+        height: 75%;
+        background-color: #3a3a3a;
+        border-radius: 20px;
+        padding: 0;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+        display: flex;
+        gap: 0;
+      }
+
+      /* Left side - Image */
+      .modal-left {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #2d2d2d;
+        overflow: hidden;
+      }
+
+      /* Right side - Text */
+      .modal-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 50px;
+        overflow-y: auto;
+      }
+
+      /* Close button */
+      .close-button {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: #ff7a28;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .close-button:hover {
+        transform: scale(1.2);
+      }
+
+      /* pop title */
+      .modal-title {
+        font-size: 40px;
+        color: #ff7a28;
+        margin-bottom: 30px;
+      }
+
+      /* Modal image */
+      .modal-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      /* Modal description */
+      .modal-description {
+        font-size: 18px;
+        color: #cccccc;
+        line-height: 1.8;
+        font-family: Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Back button -->
+    <div class="back-button" onclick="goBack()">← BACK</div>
+
+    <!-- Page title -->
+    <div class="archive-title">Archive</div>
+
+    <!-- Grid of work boxes -->
+    <div class="archive-grid">
+      <!-- Large box -->
+      <div class="work-box large" onclick="openModal(0)">
+        <img src="Untitled design.svg" alt="Work 1" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Marker-based AR - Cyberpunk city</p>
+        </div>
+      </div>
+
+      <!-- Regular box -->
+      <div class="work-box" onclick="openModal(1)">
+        <img src="farm book.png" alt="Work 2" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Children's activity book - Farmy Fellas</p>
+        </div>
+      </div>
+
+      <!-- Tall box (1x2) -->
+      <div class="work-box tall" onclick="openModal(2)">
+        <img src="wine poster (1).png" alt="Work 3" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Baroque Wine Poster - Catalina (fictional brand)</p>
+        </div>
+      </div>
+
+      <!-- Wide box (2x1) -->
+      <div class="work-box wide" onclick="openModal(3)">
+        <img src="web.png" alt="Work 4" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Website blog/article - Unseen struggles of lockdown livelihood</p>
+        </div>
+      </div>
+
+      <!-- Regular box -->
+      <div class="work-box" onclick="openModal(4)">
+        <img src="card.jpg" alt="Work 5" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Typograhy cards - FONT OFF!</p>
+        </div>
+      </div>
+
+      <!-- Regular box -->
+      <div class="work-box" onclick="openModal(5)">
+        <img src="FILM.png" alt="Work 6" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Streetwear commercial</p>
+        </div>
+      </div>
+
+      <!-- Tall box -->
+      <div class="work-box tall" onclick="openModal(6)">
+        <img src="wine poster 2 (1).png" alt="Work 7" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Baroque Wine Poster - Catalina (fictional brand)</p>
+        </div>
+      </div>
+
+      <!-- Wide box -->
+      <div class="work-box wide" onclick="openModal(7)">
+        <img src="stencil.png" alt="Work 8" class="work-image" />
+        <div class="box-content">
+          <p class="work-name">Kaat Chaap</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal popup for project details -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+      <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close-button" onclick="closeModal()">&times;</span>
+        
+        <!-- Left side - Image -->
+        <div class="modal-left">
+          <img src="" alt="Project" class="modal-image" id="modalImage" />
+        </div>
+        
+        <!-- Right side - Text -->
+        <div class="modal-right">
+          <h2 class="modal-title" id="modalTitle">Project Title</h2>
+          <p class="modal-description" id="modalDescription">
+            Project description goes here...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      // Project data - add your descriptions here
+      var projects = [
+        {
+          title: "Marker-based AR - Cyberpunk city",
+          image: "Untitled design.svg",
+          description:
+            "This is an augmented reality project featuring a cyberpunk-themed city. Using marker-based AR technology, users can view and interact with a futuristic cityscape. The project explores the intersection of digital and physical spaces, bringing immersive experiences to life through cutting-edge AR techniques.",
+        },
+        {
+          title: "Children's activity book - Farmy Fellas",
+          image: "farm book.png",
+          description:
+            "Farmy Fellas is a delightful children's activity book designed to engage young minds with fun farm-themed activities. The book includes coloring pages, puzzles, and educational content about farm animals and rural life. Created with bright, cheerful illustrations to capture children's imagination.",
+        },
+        {
+          title: "Baroque Wine Poster - Catalina",
+          image: "wine poster (1).png",
+          description:
+            "An elegant wine poster design for the fictional brand Catalina, inspired by Baroque art and aesthetics. The design features ornate details, classical typography, and a sophisticated color palette that evokes the richness and history of fine wine culture.",
+        },
+        {
+          title: "Website blog/article - Unseen struggles of lockdown livelihood",
+          image: "web.png",
+          description:
+            "A web design project for a blog article exploring the hidden challenges faced by people during lockdown. The layout combines compelling visuals with readable typography to tell important stories about livelihood struggles during the pandemic.",
+        },
+        {
+          title: "Typography cards - FONT OFF!",
+          image: "card.jpg",
+          description:
+            "FONT OFF! is a creative typography project featuring a series of cards that showcase different fonts and typographic treatments. Each card explores unique letterforms, styles, and design approaches, celebrating the art of typography.",
+        },
+        {
+          title: "Streetwear commercial",
+          image: "FILM.png",
+          description:
+            "A dynamic commercial project for a streetwear brand. This work combines bold visuals, urban aesthetics, and modern design principles to create an engaging promotional piece that captures the energy and style of contemporary street fashion.",
+        },
+        {
+          title: "Baroque Wine Poster - Catalina (variant)",
+          image: "wine poster 2 (1).png",
+          description:
+            "A second design variant for Catalina wine brand, maintaining the Baroque-inspired aesthetic while exploring different compositional approaches. This version emphasizes different classical elements and color harmonies.",
+        },
+        {
+          title: "Kaat Chaap",
+          image: "stencil.png",
+          description:
+            "Kaat Chaap is a stencil art project that explores traditional printing techniques with contemporary design. The work showcases intricate patterns and cultural motifs, blending heritage craftsmanship with modern visual language.",
+        },
+      ];
+
+      // Function to open modal with project details
+      function openModal(projectIndex) {
+        var project = projects[projectIndex];
+
+        // Update modal content
+        document.getElementById("modalTitle").textContent = project.title;
+        document.getElementById("modalImage").src = project.image;
+        document.getElementById("modalDescription").textContent =
+          project.description;
+
+        // Show modal
+        document.getElementById("modalOverlay").classList.add("show");
+      }
+
+      // Function to close modal
+      function closeModal(event) {
+        // Close if clicking on overlay or close button
+        if (event === undefined || event.target.id === "modalOverlay") {
+          document.getElementById("modalOverlay").classList.remove("show");
+        }
+      }
+
+      // Back button with fade out
+      function goBack() {
+        document.body.classList.add("fade-out");
+
+        setTimeout(function () {
+          window.history.back(); // Go back to previous page
+        }, 100); // 100ms = 0.1 seconds
+      }
+    </script>
+  </body>
+</html>

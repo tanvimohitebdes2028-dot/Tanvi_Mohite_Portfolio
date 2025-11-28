@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link href='https://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet'>
+      <link href='https://fonts.googleapis.com/css?family=Russo One' rel='stylesheet'>
+
+    <style>
+  body{
+   background-image: url('portfolio/bg final\ 3\ f.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size:cover;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  height: 100vh;
+ 
+}
+
+.homepage {
+        
+            /* Smooth transition when zooming */
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            z-index: 1;
+        } 
+        
+  .tm {
+    font-family: "Russo One", sans-serif;
+    font-size: 250px;
+    color: #000000;                        /* inside fill */
+    -webkit-text-stroke: 10px #ff7a28;  
+    stroke-width: 30%;   /* thick orange outline */
+    letter-spacing: 5px;
+    z-index: 10; 
+    position: absolute;
+    left: 13%;
+    top: 22%;
+    
+   /*glow effect in text- reference from w3 schools*/
+     
+       -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+  }
+  .glow{
+     animation: glow 1s ease-in-out infinite alternate;
+  }
+@-webkit-keyframes glow {
+  from {
+    text-shadow:0 0 20px rgba(255,122,40,0.7);
+  }
+  
+  to {
+    text-shadow:  0 0 40px rgba(255,122,40,0.4);
+  }
+  
+  from {
+    text-shadow:  0 0 40px rgba(255,122,40,0.4);
+  }
+   to {
+    text-shadow:  0 0 60px rgba(255,122,40,0.25);}
+
+   }
+
+ :root{
+    --accent: #ff7a28;
+    --bg:#000;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:"Russo One", sans-serif;
+  }
+
+  .container{
+    width:min(80vmin, 900px);
+    height:min(80vmin, 900px);
+    position:relative;
+  }
+
+  svg{
+    width:100%;
+    height:100%;
+    display:block;
+  }
+
+  /* text style */
+  text{
+    fill:var(--accent);
+    letter-spacing:2px;
+    font-size:clamp(12px,1.5vmin,18px);
+    stroke:rgba(0,0,0,0.15);
+    stroke-width:.4px;
+  }
+
+  .path{fill:none;stroke:none;}
+
+  /* rotations */
+  .spin1{
+    transform-origin:50% 50%;
+    animation:spin1 14s linear infinite;
+  }
+  .spin2{
+    transform-origin:50% 50%;
+    animation:spin2 22s linear infinite reverse;
+  }
+
+  @keyframes spin1{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+  }
+
+  @keyframes spin2{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+  }
+   
+
+   .homepage.zoom-out {
+            transform: scale(0.5);     /* Shrink to half size */
+            opacity: 0;      /* Fade away */
+        }
+
+        /* ===== PAGE 2: INDEX PAGE (Portfolio menu) ===== */
+        .index-page {
+          font-family: 'Electrolize';
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            /* Starts hidden and slightly bigger */
+            opacity: 0;
+            transform: scale(1.2);
+            /* Smooth transition when appearing */
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            z-index: 2;
+            pointer-events: none; /* Can't click when hidden */
+        }
+        
+        /* When you scroll up, index page appears */
+        .index-page.show {
+            opacity: 1; /* Fade in */
+            transform: scale(1); /* Zoom to normal size */
+            pointer-events: auto; 
+        }
+        
+        
+        /* ===== INDEX PAGE STYLING ===== */
+        .index-title {
+            font-size: 63px;
+            color: #ff7a28;
+            margin-bottom: 50px;
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            font-size: 22px;
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border: 3px solid #ff7a28;
+            border-radius: 10px;
+            min-width: 300px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        /* When you hover over a link */
+        .nav-link:hover {
+            background-color: #ff7a28;
+            color: black;
+            transform: scale(1.1);
+        }
+        
+        
+        /* ===== SCROLL INDICATOR ===== */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff7a28;
+            font-size: 14px;
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+        
+        /* Bounce animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+        
+    </style>
+
+    
+     
+</head>
+
+<body>
+  
+ <!-- PAGE 1: Homepage with TM and rotating circles -->
+    <div class="homepage" id="homepage">
+
+  <div class="container">
+      <div class="tm glow">TM</div>
+
+  <svg viewBox="0 0 1000 1000">
+
+    <defs>
+      <!-- FULL closed ellipse paths -->
+      <!-- Ellipse 1: wide -->
+      <path id="ellipse1" class="path"
+            d="M100,500 a400,200 0 1,0 800,0 a400,200 0 1,0 -800,0" />
+
+      <!-- Ellipse 2: taller -->
+      <path id="ellipse2" class="path"
+            d="M200,500 a320,260 0 1,0 640,0 a320,260 0 1,0 -640,0" />
+    </defs>
+
+    <!-- OUTER ellipse text loop -->
+    <g class="spin1">
+      <text>
+        <textPath href="#ellipse1" startOffset="0%">
+          DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION
+        </textPath>
+      </text>
+    </g>
+
+    <!-- INNER ellipse text loop -->
+    <g class="spin2">
+      <text>
+        <textPath href="#ellipse2" startOffset="0%">
+          DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION - DIMENSION
+        </textPath>
+      </text>
+    </g>
+
+  </svg>
+</div>
+   <div class="scroll-indicator"> SCROLL UP </div>
+    </div>
+</div>
+
+<!-- PAGE 2: Index/Portfolio menu -->
+    <div class="index-page" id="indexPage">
+        
+        <div class="index-title">_Welcome_</div>
+        
+        <div class="nav-links">
+            <a href="html pages/archive page.html" class="nav-link">Access: ARCHIVE</a>
+            <a href="html pages/identity.html" class="nav-link">Access: IDENTITY</a>
+            <a href="html pages/data log.html" class="nav-link">Access: DATA LOG</a>
+            <a href="html pages/contact.html" class="nav-link">Contact me</a>
+        </div>
+        
+        <div class="scroll-indicator">↓ SCROLL DOWN ↓</div>
+        
+    </div>
+
+    <!-- JAVASCRIPT: Makes the scroll work -->
+    <script>
+        // Get both pages
+        var homepage = document.getElementById('homepage');
+        var indexPage = document.getElementById('indexPage');
+        
+        // Track which page we're on
+        var onHomepage = true;
+        
+        // Prevent scrolling too fast
+        var isAnimating = false;
+        
+        // Listen for scroll wheel
+        window.addEventListener('wheel', function(event) {
+            
+            // If animation is happening, don't do anything
+            if (isAnimating) {
+                event.preventDefault();
+                return;
+            }
+            
+            // SCROLL UP (negative number)
+            if (event.deltaY < 0 && onHomepage) {
+                // Zoom out homepage, show index page
+                isAnimating = true;
+                homepage.classList.add('zoom-out');
+                indexPage.classList.add('show');
+                onHomepage = false;
+                
+                // Allow scrolling again after 0.8 seconds
+                setTimeout(function() {
+                    isAnimating = false;
+                }, 800);
+            }
+            
+            // SCROLL DOWN (positive number)
+            else if (event.deltaY > 0 && !onHomepage) {
+                // Bring back homepage, hide index page
+                isAnimating = true;
+                homepage.classList.remove('zoom-out');
+                indexPage.classList.remove('show');
+                onHomepage = true;
+                
+                // Allow scrolling again after 0.8 seconds
+                setTimeout(function() {
+                    isAnimating = false;
+                }, 800);
+            }
+            
+        });
+    </script>
+
+
+</body>
+</html>

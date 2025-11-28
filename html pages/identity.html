@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Identity Page</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Basic setup */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Russo One", sans-serif;
+        overflow: hidden;
+        background-image: url(bg\ final\ 3\ f.png);
+      }
+
+      /* ===== PAGE 1: ABOUT ME ===== */
+      .about-page {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transition: opacity 0.2s ease;
+        z-index: 1;
+      }
+
+      /* Fade out when scrolling */
+      .about-page.fade-out {
+        opacity: 0;
+      }
+
+      /* Left side - Photo */
+      .photo-section {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+      }
+
+      /* Photo container */
+      .photo-container {
+        width: 400px;
+        height: 400px;
+        padding-right: 200px;
+        padding-bottom: 150px;
+      }
+
+      /* The actual photo with glowing border */
+      .profile-photo {
+        width: 150%;
+        height: 150%;
+        border-radius: 20%;
+        object-fit: cover;
+        border: 5px solid #ff7a28;
+        box-shadow: 0 0 20px rgba(255, 122, 40, 0.6),
+          0 0 40px rgba(255, 122, 40, 0.4);
+      }
+
+      /* Right side - Text */
+      .text-section {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 80px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      }
+
+      .about-title {
+        font-size: 50px;
+        color: #ff7a28;
+        margin-bottom: 30px;
+      }
+
+      .about-text {
+        font-size: 18px;
+        color: #cccccc;
+        line-height: 1.8;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Scroll indicator */
+      .scroll-indicator {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #ff7a28;
+        font-size: 14px;
+        animation: bounce 2s infinite;
+        z-index: 10;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        50% {
+          transform: translateX(-50%) translateY(-10px);
+        }
+      }
+
+      /* ===== PAGE 2: HOBBIES ===== */
+      .hobbies-page {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        z-index: 2;
+        pointer-events: none;
+        background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+      }
+
+      /* Show hobbies page */
+      .hobbies-page.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Upper half - Photo slider */
+      .slider-section {
+        width: 100%;
+        height: 50vh;
+        position: relative;
+        overflow: hidden;
+        background-color: #1a1a1a;
+      }
+
+      /* Slider container */
+      .slider-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      /* Individual slide */
+      .slide {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      /* Active slide */
+      .slide.active {
+        opacity: 1;
+      }
+
+      /* Image in slide */
+      .slide-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      /* Navigation arrows */
+      .arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(255, 122, 40, 0.8);
+        color: white;
+        font-size: 30px;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        z-index: 10;
+        transition: all 0.3s ease;
+      }
+
+      .arrow:hover {
+        background-color: #ff7a28;
+        transform: translateY(-50%) scale(1.1);
+      }
+
+      .arrow-left {
+        left: 30px;
+      }
+
+      .arrow-right {
+        right: 30px;
+      }
+
+      /* Lower half - Text about hobby */
+      .hobby-text-section {
+        width: 100%;
+        height: 30vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 60px;
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
+      .hobby-title {
+        font-size: 45px;
+        color: #ff7a28;
+        margin-bottom: 20px;
+      }
+
+      .hobby-description {
+        font-size: 18px;
+        color: #cccccc;
+        line-height: 1.8;
+        max-width: 800px;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Back button */
+      .back-button {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        font-size: 20px;
+        color: white;
+        background-color: #ff7a28;
+        padding: 10px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 100;
+        transition: transform 0.3s ease;
+      }
+
+      .back-button:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Back button -->
+    <div class="back-button" onclick="goBack()">← BACK</div>
+
+    <!-- PAGE 1: About Me -->
+    <div class="about-page" id="aboutPage">
+      <!-- Left side - Photo with glowing border -->
+      <div class="photo-section">
+        <div class="photo-container">
+          <img
+            src="self.jpg"
+            alt="Profile Photo"
+            class="profile-photo"
+          />
+        </div>
+      </div>
+
+      <!-- Right side - About text -->
+      <div class="text-section">
+        <h1 class="about-title">About Me</h1>
+        <p class="about-text">
+          Hi! I'm Tanvi Mohite, a passionate designer and creative thinker. I
+          love exploring new ideas and bringing them to life through innovative
+          designs. My journey in design started when I realized the power of
+          visual storytelling and how it can transform experiences.
+          <br /><br />
+          I believe in creating work that not only looks beautiful but also
+          serves a purpose. Every project I take on is an opportunity to learn
+          something new and push my creative boundaries.
+        </p>
+      </div>
+
+      <div class="scroll-indicator">↓ SCROLL DOWN ↓</div>
+    </div>
+
+    <!-- PAGE 2: Hobbies with Slider -->
+    <div class="hobbies-page" id="hobbiesPage">
+      <!-- Upper half - Photo slider -->
+      <div class="slider-section">
+        <div class="slider-container">
+          <!-- Slide 1 -->
+          <div class="slide active" id="slide1">
+            <img src="cat 2.jpg" alt="PAW PATROL" class="slide-image" />
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="slide" id="slide2">
+            <img
+              src="Penacony-in-Honkai-Star-Rail.jpg"
+              alt="PAW "
+              class="slide-image"
+            />
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="slide" id="slide3">
+            <img
+              src="Ocean_coaster_3.jpg"
+              alt="RESIN"
+              class="slide-image"
+            />
+          </div>
+
+          <!-- Navigation arrows -->
+          <div class="arrow arrow-left" onclick="changeSlide(-1)">‹</div>
+          <div class="arrow arrow-right" onclick="changeSlide(1)">›</div>
+        </div>
+      </div>
+
+      <!-- Lower half - Text about current hobby -->
+      <div class="hobby-text-section">
+        <h2 class="hobby-title" id="hobbyTitle">'PAW' Patrol</h2>
+        <p class="hobby-description" id="hobbyDescription">
+          My hobby of performing community service by taking care of the cats
+          nearby my area
+        </p>
+      </div>
+
+      <div class="scroll-indicator">↑ SCROLL UP ↑</div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      // Get pages
+      var aboutPage = document.getElementById("aboutPage");
+      var hobbiesPage = document.getElementById("hobbiesPage");
+
+      // Track which page we're on
+      var onAboutPage = true;
+
+      // Prevent scrolling too fast
+      var isAnimating = false;
+
+      // SCROLL FUNCTIONALITY
+      window.addEventListener("wheel", function (event) {
+        if (isAnimating) {
+          event.preventDefault();
+          return;
+        }
+
+        // Scroll DOWN - go to hobbies
+        if (event.deltaY > 0 && onAboutPage) {
+          isAnimating = true;
+          aboutPage.classList.add("fade-out");
+
+          // Show hobbies after 0.2 seconds
+          setTimeout(function () {
+            hobbiesPage.classList.add("show");
+            onAboutPage = false;
+            isAnimating = false;
+          }, 200);
+        }
+
+        // Scroll UP - go back to about
+        else if (event.deltaY < 0 && !onAboutPage) {
+          isAnimating = true;
+          hobbiesPage.classList.remove("show");
+
+          // Show about page after 0.2 seconds
+          setTimeout(function () {
+            aboutPage.classList.remove("fade-out");
+            onAboutPage = true;
+            isAnimating = false;
+          }, 200);
+        }
+      });
+
+      // SLIDER FUNCTIONALITY
+      var currentSlide = 0;
+      var slides = document.querySelectorAll(".slide");
+
+      // Hobby data
+      var hobbies = [
+        {
+          title: "'PAW'Patrol",
+          description:
+            "my hobby of performing community service by taking care of the cats nearby my area",
+        },
+        {
+          title: "Gaming",
+          description:
+            "Gaming has always been a source of relaxation alongside a world of inspiration and quests, exploring the characters and the virtual world of fantasy.",
+        },
+        {
+          title: "Resin Crafts",
+          description:
+            "Resin helped me explore the diversity of materials alongside the techniques which lead to the formation of beautiful aesthetic products.",
+        },
+      ];
+
+      // Function to change slide
+      function changeSlide(direction) {
+        // Remove active class from current slide
+        slides[currentSlide].classList.remove("active");
+
+        // Calculate new slide index
+        currentSlide = currentSlide + direction;
+
+        // Loop back if at end
+        if (currentSlide >= slides.length) {
+          currentSlide = 0;
+        }
+        if (currentSlide < 0) {
+          currentSlide = slides.length - 1;
+        }
+
+        // Add active class to new slide
+        slides[currentSlide].classList.add("active");
+
+        // Update text
+        document.getElementById("hobbyTitle").textContent =
+          hobbies[currentSlide].title;
+        document.getElementById("hobbyDescription").textContent =
+          hobbies[currentSlide].description;
+      }
+
+      // Back button function
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>

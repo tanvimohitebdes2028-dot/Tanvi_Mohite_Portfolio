@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Log - CV</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Electrolize"
+      rel="stylesheet"
+    />
+    <style>
+      /* Basic setup */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Russo One", sans-serif;
+        overflow: hidden;
+      
+        background-image: radial-gradient(
+            white,
+            rgba(255, 255, 255, 0.2) 2px,
+            transparent 5px
+          ),
+          radial-gradient(white, rgba(255, 255, 255, 0.15) 1px, transparent 3px),
+          radial-gradient(white, rgba(255, 255, 255, 0.1) 2px, transparent 4px);
+        background-size: 550px 550px, 350px 350px, 250px 250px;
+        background-position: 0 0, 40px 60px, 130px 270px;
+        transition: background-color 0.5s ease;
+      }
+
+      /* Background color changes based on active bookmark */
+      body.skills-active {
+        background-color: #ff69f5;
+      }
+
+      body.education-active {
+        background-color: #4dd9ff;
+      }
+
+      body.job-active {
+        background-color: #e0e0e0;
+      }
+
+      /* Content sheet that slides from bottom */
+      .content-sheet {
+        position: fixed;
+        bottom: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        max-height: 70%;
+        background-color: white;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+        padding: 50px;
+        overflow-y: auto;
+        transition: bottom 0.6s ease;
+        z-index: 100;
+      }
+
+      /* Show sheet */
+      .content-sheet.show {
+        bottom: 0;
+      }
+
+      /* Main container */
+      .container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      /* Folder container */
+      .folder-container {
+        position: relative;
+        width: 500px;
+        height: 600px;
+        z-index: 1;
+      }
+
+      /* Folder body (blue part) */
+      .folder-body {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #2b7a9e 0%, #1e5f7f 100%);
+        border-radius: 0 0 20px 20px;
+        position: relative;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Folder tab cutout (top right corner) */
+      .folder-body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 80px;
+        height: 80px;
+        background-color: #1a1a1a;
+        border-radius: 0 0 0 20px;
+      }
+
+      /* Bookmarks container */
+      .bookmarks {
+        position: absolute;
+        top: -50px;
+        left: 0;
+        display: flex;
+        gap: 5px;
+        z-index: 10;
+      }
+
+      /* Individual bookmark */
+      .bookmark {
+        padding: 15px 30px;
+        font-size: 14px;
+        font-weight: bold;
+        color: black;
+        cursor: pointer;
+        border-radius: 8px 8px 0 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .bookmark:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Bookmark colors */
+      .bookmark.skills {
+        background-color: #ff69f5;
+      }
+
+      .bookmark.education {
+        background-color: #4dd9ff;
+      }
+
+      .bookmark.job {
+        background-color: #e0e0e0;
+      }
+
+      /* Active bookmark */
+      .bookmark.active {
+        transform: translateY(-8px);
+      }
+
+      /* Sheet title */
+      .sheet-title {
+        font-size: 36px;
+        color: #1e5f7f;
+        margin-bottom: 30px;
+        border-bottom: 3px solid #ff7a28;
+        padding-bottom: 10px;
+      }
+
+      /* Close button on sheet */
+      .close-sheet {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 35px;
+        color: #ff7a28;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .close-sheet:hover {
+        transform: scale(1.2);
+      }
+
+      /* Content section */
+      .content-section {
+        margin-bottom: 25px;
+      }
+
+      .content-heading {
+        font-size: 20px;
+        color: #ff7a28;
+        margin-bottom: 10px;
+      }
+
+      .content-text {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.6;
+        font-family: "Electrolize";
+      }
+
+      /* Back button */
+      .back-button {
+        position: fixed;
+        top: 30px;
+        left: 30px;
+        font-size: 20px;
+        color: white;
+        background-color: #ff7a28;
+        padding: 10px 25px;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 200;
+        transition: transform 0.3s ease;
+      }
+
+      .back-button:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Back button -->
+    <div class="back-button" onclick="goBack()">← BACK</div>
+
+    <div class="container">
+      <!-- Folder with bookmarks -->
+      <div class="folder-container" id="folderContainer">
+        <!-- Bookmarks on top -->
+        <div class="bookmarks">
+          <div class="bookmark skills" onclick="showSheet('skills')">
+            SKILLS
+          </div>
+          <div class="bookmark education" onclick="showSheet('education')">
+            EDUCATION
+          </div>
+          <div class="bookmark job" onclick="showSheet('job')">
+            JOB EXPERIENCE
+          </div>
+        </div>
+
+        <!-- Folder body -->
+        <div class="folder-body"></div>
+      </div>
+    </div>
+
+    <!-- Content sheet that slides from bottom -->
+    <div class="content-sheet" id="contentSheet">
+      <span class="close-sheet" onclick="closeSheet()">&times;</span>
+      <h2 class="sheet-title" id="sheetTitle"></h2>
+      <div id="sheetContent"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      var contentSheet = document.getElementById("contentSheet");
+      var sheetTitle = document.getElementById("sheetTitle");
+      var sheetContent = document.getElementById("sheetContent");
+      var body = document.body;
+
+      // Track current section
+      var currentSection = null;
+
+      // CV Data
+      var cvData = {
+        skills: {
+          title: "Skills",
+          content: `
+                    <div class="content-section">
+                        <h3 class="content-heading">Design Skills</h3>
+                        <p class="content-text">
+                            • Adobe Photoshop<br>
+                            • Adobe Illustrator<br>
+                            • Figma<br>
+                            • Adobe InDesign<br>
+                            • Canva<br>
+                            • Clip Studio Paint<br>
+                            • Procreate
+                        </p>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-heading">Technical Skills</h3>
+                        <p class="content-text">
+                            • HTML & CSS<br>
+                        
+                        </p>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-heading">Soft Skills</h3>
+                        <p class="content-text">
+                            • Creative Problem Solving<br>
+                            • Team Collaboration<br>
+                            • Leadership skills<br>
+                            • Communication<br>
+                            • Empathy<br>
+                        </p>
+                    </div>
+                `,
+        },
+        education: {
+          title: "Education",
+          content: `
+                    <div class="content-section">
+                        <h3 class="content-heading">Atlas Skilltech University</h3>
+                        <p class="content-text">
+                            <strong>Degree:</strong> Bachelor of Design<br>
+                            <strong>Year:</strong> 2024 - 2028<br>
+                            <strong>Major:</strong> Visual Communication
+                        </p>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-heading">North Point School - Koperkhairane</h3>
+                        <p class="content-text">
+                            <strong>Year:</strong> 2022 - 2024<br>
+                            <strong>Focus:</strong> Humanities
+                        </p>
+                    </div>
+                `,
+        },
+        job: {
+          title: "Job Experience",
+          content: `
+                    <div class="content-section">
+                        <h3 class="content-heading">Design Intern</h3>
+                        <p class="content-text">
+                            <strong>Company:</strong> Swayamsiddha Society <br>
+                            <strong>Duration:</strong> February 2024 - April 2023<br>
+                            <strong>Role:</strong> Creating packaging designs and assistance in marketing alongside collaboration with the team.
+                        </p>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-heading">Design Intern</h3>
+                        <p class="content-text">
+                            <strong>Company:</strong> Elfy<br>
+                            <strong>Duration:</strong> May 2025 - July 2025<br>
+                            <strong>Role:</strong> Assisted senior designers, created social media graphics, 
+                            and learned industry best practices.
+                        </p>
+                    </div>
+                `,
+        },
+      };
+
+      // Function to show sheet with content
+      function showSheet(section) {
+        // Update current section
+        currentSection = section;
+
+        // Change background color to match bookmark
+        body.className = section + "-active";
+
+        // Show sheet
+        contentSheet.classList.add("show");
+
+        // Update content
+        sheetTitle.textContent = cvData[section].title;
+        sheetContent.innerHTML = cvData[section].content;
+
+        // Update active bookmark
+        var bookmarks = document.querySelectorAll(".bookmark");
+        bookmarks.forEach(function (bookmark) {
+          bookmark.classList.remove("active");
+        });
+        document.querySelector(".bookmark." + section).classList.add("active");
+      }
+
+      // Function to close sheet
+      function closeSheet() {
+        contentSheet.classList.remove("show");
+        body.className = "";
+        currentSection = null;
+
+        // Remove active from all bookmarks
+        var bookmarks = document.querySelectorAll(".bookmark");
+        bookmarks.forEach(function (bookmark) {
+          bookmark.classList.remove("active");
+        });
+      }
+
+      // Back button
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>
