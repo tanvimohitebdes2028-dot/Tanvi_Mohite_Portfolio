@@ -1,398 +1,705 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Archive Page</title>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive - Subjects</title>
+    
     <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap"
-      rel="stylesheet"
-    />
-
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+    
     <style>
-      /* Basic page setup */
-      body {
-        margin: 0;
-        padding: 0;
-        background-image:url(bg\ final\ 3\ f.png);
-        font-family: "Russo One", sans-serif;
-        padding: 80px 40px 40px 40px;
-      }
-
-      /* Page title */
-      .archive-title {
-        font-size: 60px;
-        color: #ff7a28;
-        margin-bottom: 20px;
-        text-align: left;
-      }
-
-      /* Back button */
-      .back-button {
-        position: fixed;
-        top: 30px;
-        left: 30px;
-        font-size: 20px;
-        color: white;
-        background-color: #ff7a28;
-        padding: 10px 25px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-        z-index: 100;
-      }
-
-      .back-button:hover {
-        transform: scale(1.1);
-      }
-
-      /* Grid container - creates the layout */
-      .archive-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columns */
-        grid-auto-rows: 200px; /* Each row is 200px tall */
-        gap: 20px; /* Space between boxes */
-        padding-bottom: 40px;
-      }
-
-      /* Individual work box */
-      .work-box {
-        background: black;
-        border-radius: 15px;
-        border: 2px solid #555;
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.4s ease;
-      }
-
-      /* Different sized boxes */
-      .large {
-        grid-column: span 2; /* Takes 2 columns */
-        grid-row: span 2; /* Takes 2 rows */
-      }
-
-      .tall {
-        grid-row: span 2; /* Takes 2 rows */
-      }
-
-      .wide {
-        grid-column: span 2; /* Takes 2 columns */
-      }
-
-      /* When hovering over a box - it grows */
-      .work-box:hover {
-        transform: scale(1.05);
-        border-color: #ff7a28;
-        z-index: 5;
-      }
-
-      .work-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.6;
-        transition: opacity 0.4s ease;
-      }
-
-      /* Image becomes brighter on hover */
-      .work-box:hover .work-image {
-        opacity: 1;
-      }
-
-      /* Box content (work name) - hidden initially */
-      .box-content {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 20px;
-        background: rgba(0, 0, 0, 0.8);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-      }
-
-      /* Show content on hover */
-      .work-box:hover .box-content {
-        opacity: 1;
-      }
-
-      .work-name {
-        color: #ff7a28;
-        font-size: 20px;
-        margin: 0;
-      }
-
-      /* Modal overlay (dark background) */
-      .modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.85);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-      }
-
-      /* Show modal */
-      .modal-overlay.show {
-        display: flex;
-      }
-
-      /* Modal content box (3/4 of page) */
-      .modal-content {
-        width: 75%;
-        height: 75%;
-        background-color: #3a3a3a;
-        border-radius: 20px;
-        padding: 0;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
-        display: flex;
-        gap: 0;
-      }
-
-      /* Left side - Image */
-      .modal-left {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #2d2d2d;
-        overflow: hidden;
-      }
-
-      /* Right side - Text */
-      .modal-right {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        padding: 50px;
-        overflow-y: auto;
-      }
-
-      /* Close button */
-      .close-button {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        font-size: 40px;
-        color: #ff7a28;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-      }
-
-      .close-button:hover {
-        transform: scale(1.2);
-      }
-
-      /* pop title */
-      .modal-title {
-        font-size: 40px;
-        color: #ff7a28;
-        margin-bottom: 30px;
-      }
-
-      /* Modal image */
-      .modal-image {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-
-      /* Modal description */
-      .modal-description {
-        font-size: 18px;
-        color: #cccccc;
-        line-height: 1.8;
-        font-family: Arial, sans-serif;
-      }
+        /* Basic setup */
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('bg final 3 f.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: "Russo One", sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Back button */
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            font-size: 20px;
+            color: white;
+            background-color: #ff7a28;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+        
+        /* SUBJECTS PAGE */
+        .subjects-page {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .subjects-page.hidden {
+            display: none;
+        }
+        
+        /* Page title */
+        .archive-title {
+            font-size: 50px;
+            color: #ff7a28;
+            margin-bottom: 80px;
+            text-align: center;
+        }
+        
+        /* Carousel container */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+        
+        /* Subject cards in arc/fan layout */
+        .subject-card {
+            position: absolute;
+            width: 250px;
+            height: 350px;
+            background: linear-gradient(135deg, rgba(58, 58, 58, 0.4) 0%, rgba(77, 77, 77, 0.4) 100%);
+            border-radius: 20px;
+            border: 2px solid rgba(85, 85, 85, 0.6);
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                        0 0 20px rgba(255, 122, 40, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Hover effect on center card */
+        .subject-card.center:hover {
+            border-color: #ff7a28;
+            box-shadow: 0 10px 40px rgba(255, 122, 40, 0.6),
+                        0 0 40px rgba(255, 122, 40, 0.5),
+                        inset 0 0 20px rgba(255, 122, 40, 0.1);
+            transform: translateX(0) scale(1.05) rotateY(0deg) !important;
+            background: linear-gradient(135deg, rgba(58, 58, 58, 0.5) 0%, rgba(77, 77, 77, 0.5) 100%);
+        }
+        
+        .subject-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .subject-name {
+            font-size: 24px;
+            color: #ff7a28;
+            margin-bottom: 10px;
+        }
+        
+        .subject-count {
+            font-size: 14px;
+            color: #cccccc;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Navigation arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ff7a28;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .nav-arrow:hover {
+            background-color: #ff9a28;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .nav-arrow.left {
+            left: 50px;
+        }
+        
+        .nav-arrow.right {
+            right: 50px;
+        }
+        
+        /* Instruction text */
+        .instruction {
+            position: absolute;
+            bottom: 100px;
+            color: #cccccc;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+        }
+        
+        
+        /* WORKS PAGE */
+        .works-page {
+            width: 100%;
+            min-height: 100vh;
+            padding: 100px 40px 40px 40px;
+            display: none;
+            background-image: url('bg final 3 f.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .works-page.show {
+            display: block;
+        }
+        
+        .works-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: all 0.6s ease;
+        }
+        
+        /* Animate header when page shows */
+        .works-page.show .works-header {
+            opacity: 1;
+            transform: translateY(0);
+            animation: slideDown 0.6s ease forwards;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .works-title {
+            font-size: 45px;
+            color: #ff7a28;
+        }
+        
+        .back-to-subjects {
+            font-size: 18px;
+            color: white;
+            background-color: #555;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-subjects:hover {
+            background-color: #ff7a28;
+            transform: scale(1.05);
+        }
+        
+        .works-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .work-item {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 60px;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        /* Animate works items with staggered delay */
+        .works-page.show .work-item {
+            animation: flowIn 0.6s ease forwards;
+        }
+        
+        .works-page.show .work-item:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+        
+        .works-page.show .work-item:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+        
+        .works-page.show .work-item:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+        
+        .works-page.show .work-item:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+        
+        @keyframes flowIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .work-item.right {
+            flex-direction: row-reverse;
+        }
+        
+        .work-image-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        /* Image/Video display */
+        .work-media {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Image gallery navigation */
+        .media-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 122, 40, 0.8);
+            color: white;
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        
+        .media-nav:hover {
+            background-color: #ff7a28;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .media-nav.prev {
+            left: 10px;
+        }
+        
+        .media-nav.next {
+            right: 10px;
+        }
+        
+        /* Hide nav arrows if only one image */
+        .work-image-container.single-image .media-nav {
+            display: none;
+        }
+        
+        /* Image counter */
+        .image-counter {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .work-text {
+            flex: 1;
+        }
+        
+        .work-name {
+            font-size: 30px;
+            color: #ff7a28;
+            margin-bottom: 15px;
+        }
+        
+        .work-description {
+            font-size: 16px;
+            color: #cccccc;
+            line-height: 1.6;
+            font-family: Arial, sans-serif;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
+    
     <!-- Back button -->
     <div class="back-button" onclick="goBack()">← BACK</div>
-
-    <!-- Page title -->
-    <div class="archive-title">Archive</div>
-
-    <!-- Grid of work boxes -->
-    <div class="archive-grid">
-      <!-- Large box -->
-      <div class="work-box large" onclick="openModal(0)">
-        <img src="Untitled design.svg" alt="Work 1" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Marker-based AR - Cyberpunk city</p>
-        </div>
-      </div>
-
-      <!-- Regular box -->
-      <div class="work-box" onclick="openModal(1)">
-        <img src="farm book.png" alt="Work 2" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Children's activity book - Farmy Fellas</p>
-        </div>
-      </div>
-
-      <!-- Tall box (1x2) -->
-      <div class="work-box tall" onclick="openModal(2)">
-        <img src="wine poster (1).png" alt="Work 3" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Baroque Wine Poster - Catalina (fictional brand)</p>
-        </div>
-      </div>
-
-      <!-- Wide box (2x1) -->
-      <div class="work-box wide" onclick="openModal(3)">
-        <img src="web.png" alt="Work 4" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Website blog/article - Unseen struggles of lockdown livelihood</p>
-        </div>
-      </div>
-
-      <!-- Regular box -->
-      <div class="work-box" onclick="openModal(4)">
-        <img src="card.jpg" alt="Work 5" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Typograhy cards - FONT OFF!</p>
-        </div>
-      </div>
-
-      <!-- Regular box -->
-      <div class="work-box" onclick="openModal(5)">
-        <img src="FILM.png" alt="Work 6" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Streetwear commercial</p>
-        </div>
-      </div>
-
-      <!-- Tall box -->
-      <div class="work-box tall" onclick="openModal(6)">
-        <img src="wine poster 2 (1).png" alt="Work 7" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Baroque Wine Poster - Catalina (fictional brand)</p>
-        </div>
-      </div>
-
-      <!-- Wide box -->
-      <div class="work-box wide" onclick="openModal(7)">
-        <img src="stencil.png" alt="Work 8" class="work-image" />
-        <div class="box-content">
-          <p class="work-name">Kaat Chaap</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal popup for project details -->
-    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-      <div class="modal-content" onclick="event.stopPropagation()">
-        <span class="close-button" onclick="closeModal()">&times;</span>
+    
+    
+    <!-- SUBJECTS PAGE (Main Archive) -->
+    <div class="subjects-page" id="subjectsPage">
+        <h1 class="archive-title">Archive</h1>
         
-        <!-- Left side - Image -->
-        <div class="modal-left">
-          <img src="" alt="Project" class="modal-image" id="modalImage" />
+        <div class="carousel-container">
+            
+            <!-- Navigation arrows -->
+            <div class="nav-arrow left" onclick="rotateCarousel('left')">‹</div>
+            <div class="nav-arrow right" onclick="rotateCarousel('right')">›</div>
+            
+            <!-- Subject cards in arc layout -->
+            <div class="subject-card" data-subject="typography">
+                <div class="subject-icon">📝</div>
+                <div class="subject-name">Typography</div>
+                <div class="subject-count">1 project</div>
+            </div>
+            
+            <div class="subject-card" data-subject="digital-tools">
+                <div class="subject-icon">💻</div>
+                <div class="subject-name">Digital Tools</div>
+                <div class="subject-count">1 project</div>
+            </div>
+            
+            <div class="subject-card" data-subject="semiotics">
+                <div class="subject-icon">🔣</div>
+                <div class="subject-name">Semiotics</div>
+                <div class="subject-count">1 project</div>
+            </div>
+            
+            <div class="subject-card" data-subject="graphic-design">
+                <div class="subject-icon">🎨</div>
+                <div class="subject-name">Graphic Design</div>
+                <div class="subject-count">3 projects</div>
+            </div>
+            
+            <div class="subject-card" data-subject="book-design">
+                <div class="subject-icon">📚</div>
+                <div class="subject-name">Book/Zine Design</div>
+                <div class="subject-count">3 projects</div>
+            </div>
+            
         </div>
         
-        <!-- Right side - Text -->
-        <div class="modal-right">
-          <h2 class="modal-title" id="modalTitle">Project Title</h2>
-          <p class="modal-description" id="modalDescription">
-            Project description goes here...
-          </p>
-        </div>
-      </div>
+        <div class="instruction">Click center card or use arrows to navigate</div>
     </div>
-
+    
+    
+    <!-- WORKS PAGE (Shows when subject is clicked) -->
+    <div class="works-page" id="worksPage">
+        
+        <div class="works-header">
+            <h2 class="works-title" id="worksTitle">Graphic Design</h2>
+            <div class="back-to-subjects" onclick="backToSubjects()">← Back to Subjects</div>
+        </div>
+        
+        <div class="works-container" id="worksContainer">
+            <!-- Works will be loaded here by JavaScript -->
+        </div>
+        
+    </div>
+    
+    
     <!-- JavaScript -->
     <script>
-      // Project data - add your descriptions here
-      var projects = [
-        {
-          title: "Marker-based AR - Cyberpunk city",
-          image: "Untitled design.svg",
-          description:
-            "This is an augmented reality project featuring a cyberpunk-themed city. Using marker-based AR technology, users can view and interact with a futuristic cityscape. The project explores the intersection of digital and physical spaces, bringing immersive experiences to life through cutting-edge AR techniques.",
-        },
-        {
-          title: "Children's activity book - Farmy Fellas",
-          image: "farm book.png",
-          description:
-            "Farmy Fellas is a delightful children's activity book designed to engage young minds with fun farm-themed activities. The book includes coloring pages, puzzles, and educational content about farm animals and rural life. Created with bright, cheerful illustrations to capture children's imagination.",
-        },
-        {
-          title: "Baroque Wine Poster - Catalina",
-          image: "wine poster (1).png",
-          description:
-            "An elegant wine poster design for the fictional brand Catalina, inspired by Baroque art and aesthetics. The design features ornate details, classical typography, and a sophisticated color palette that evokes the richness and history of fine wine culture.",
-        },
-        {
-          title: "Website blog/article - Unseen struggles of lockdown livelihood",
-          image: "web.png",
-          description:
-            "A web design project for a blog article exploring the hidden challenges faced by people during lockdown. The layout combines compelling visuals with readable typography to tell important stories about livelihood struggles during the pandemic.",
-        },
-        {
-          title: "Typography cards - FONT OFF!",
-          image: "card.jpg",
-          description:
-            "FONT OFF! is a creative typography project featuring a series of cards that showcase different fonts and typographic treatments. Each card explores unique letterforms, styles, and design approaches, celebrating the art of typography.",
-        },
-        {
-          title: "Streetwear commercial",
-          image: "FILM.png",
-          description:
-            "A dynamic commercial project for a streetwear brand. This work combines bold visuals, urban aesthetics, and modern design principles to create an engaging promotional piece that captures the energy and style of contemporary street fashion.",
-        },
-        {
-          title: "Baroque Wine Poster - Catalina (variant)",
-          image: "wine poster 2 (1).png",
-          description:
-            "A second design variant for Catalina wine brand, maintaining the Baroque-inspired aesthetic while exploring different compositional approaches. This version emphasizes different classical elements and color harmonies.",
-        },
-        {
-          title: "Kaat Chaap",
-          image: "stencil.png",
-          description:
-            "Kaat Chaap is a stencil art project that explores traditional printing techniques with contemporary design. The work showcases intricate patterns and cultural motifs, blending heritage craftsmanship with modern visual language.",
-        },
-      ];
-
-      // Function to open modal with project details
-      function openModal(projectIndex) {
-        var project = projects[projectIndex];
-
-        // Update modal content
-        document.getElementById("modalTitle").textContent = project.title;
-        document.getElementById("modalImage").src = project.image;
-        document.getElementById("modalDescription").textContent =
-          project.description;
-
-        // Show modal
-        document.getElementById("modalOverlay").classList.add("show");
-      }
-
-      // Function to close modal
-      function closeModal(event) {
-        // Close if clicking on overlay or close button
-        if (event === undefined || event.target.id === "modalOverlay") {
-          document.getElementById("modalOverlay").classList.remove("show");
+        var subjectsPage = document.getElementById('subjectsPage');
+        var worksPage = document.getElementById('worksPage');
+        var worksTitle = document.getElementById('worksTitle');
+        var worksContainer = document.getElementById('worksContainer');
+        var cards = document.querySelectorAll('.subject-card');
+        var currentIndex = 2;
+        
+        function rotateCarousel(direction) {
+            if (direction === 'right') {
+                currentIndex = (currentIndex + 1) % cards.length;
+            } else {
+                currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+            }
+            updateCarousel();
         }
-      }
-
-      // Back button with fade out
-      function goBack() {
-        document.body.classList.add("fade-out");
-
-        setTimeout(function () {
-          window.history.back(); // Go back to previous page
-        }, 100); // 100ms = 0.1 seconds
-      }
+        
+        function updateCarousel() {
+            cards.forEach(function(card, index) {
+                card.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                
+                var offset = (index - currentIndex + cards.length) % cards.length;
+                if (offset > cards.length / 2) {
+                    offset = offset - cards.length;
+                }
+                
+                card.onclick = null;
+                card.classList.remove('center');
+                
+                if (offset === 0) {
+                    card.style.transform = 'translateX(0) scale(1) rotateY(0deg)';
+                    card.style.opacity = '1';
+                    card.style.zIndex = '3';
+                    card.classList.add('center');
+                    card.onclick = function() {
+                        showWorks(card.getAttribute('data-subject'));
+                    };
+                } else if (offset === -2 || offset === 4) {
+                    card.style.transform = 'translateX(-400px) scale(0.8) rotateY(25deg)';
+                    card.style.opacity = '0.6';
+                    card.style.zIndex = '1';
+                } else if (offset === -1 || offset === 4) {
+                    card.style.transform = 'translateX(-250px) scale(0.9) rotateY(15deg)';
+                    card.style.opacity = '0.8';
+                    card.style.zIndex = '2';
+                } else if (offset === 1 || offset === -4) {
+                    card.style.transform = 'translateX(250px) scale(0.9) rotateY(-15deg)';
+                    card.style.opacity = '0.8';
+                    card.style.zIndex = '2';
+                } else if (offset === 2 || offset === -3) {
+                    card.style.transform = 'translateX(400px) scale(0.8) rotateY(-25deg)';
+                    card.style.opacity = '0.6';
+                    card.style.zIndex = '1';
+                } else {
+                    card.style.transform = 'translateX(550px) scale(0.7) rotateY(-35deg)';
+                    card.style.opacity = '0.4';
+                    card.style.zIndex = '0';
+                }
+            });
+        }
+        
+        updateCarousel();
+        
+        var worksData = {
+            'typography': {
+                title: 'Typography',
+                works: [
+                    {
+                        name: 'Marathi Theatre Event - Typographic Identity',
+                        media: [
+                            'poster1.png',
+                            'poster2.png',
+                            'ad1.png',
+                            'tote1.png',
+                            'tickets.png'
+                        ],
+                        type: 'images',
+                        description: 'This project develops a typographic identity for a Marathi theatre event using expressive Devanagari letterforms as the primary visual element. The system focuses on hierarchy, contrast, and minimal colour to create a bold and dramatic visual language. The design was adapted across multiple mediums including posters, digital kiosks, website banners, tickets, and merchandise while maintaining consistency. It demonstrates how a strong typographic system can remain cohesive across both digital and physical formats.'
+                    }
+                ]
+            },
+            'digital-tools': {
+                title: 'Digital Tools',
+                works: [
+                    {
+                        name: 'Digital Tools Work 1',
+                        media: [
+                            'arvid.mp4'
+                        ],
+                        type: 'video-only',
+                        description: 'This project involves designing a small desktop game set inside a futuristic research facility. The player navigates a grid-based maze, collects plasma orbs, and avoids laser traps in order to unlock the exit. The game design focuses on level progression, reward systems, and environmental cues to guide the player. Built with a sci-fi visual style, the project explores interactive design, game mechanics, and spatial navigation.'
+                    }
+                ]
+            },
+            'semiotics': {
+                title: 'Semiotics',
+                works: [
+                    {
+                        name: 'Semiotics',
+                        media: [
+                            'symb1.png',
+                            'symb2.png',
+                            'symb3.png',
+                            'symb1pos.png',
+                            'symb2pos.png',
+                            'mock1.jpg'
+                        ],
+                        type: 'images',
+                        description: 'This project explores the creation of abstract visual symbols by combining elements from different categories to communicate layered meanings. A set of illustrated symbols was developed and later refined digitally to enhance clarity and visual identity. These symbols were applied across posters and product mockups to test their communicative power in different contexts. The project highlights how abstraction, composition, and colour can transform simple forms into expressive visual messages.'
+                    }
+                ]
+            },
+            'graphic-design': {
+                title: 'Graphic Design',
+                works: [
+                    {
+                        name: 'Baroque Wine Poster - Catalina',
+                        media: ['wine poster (1).png'],
+                        type: 'images',
+                        description: 'An elegant wine poster design inspired by Baroque art and aesthetics with ornate details and classical typography.'
+                    },
+                    {
+                        name: 'Baroque Wine Poster - Catalina (Variant)',
+                        media: ['wine poster 2 (1).png'],
+                        type: 'images',
+                        description: 'A second design variant for Catalina wine brand, exploring different compositional approaches.'
+                    },
+                    {
+                        name: 'Streetwear Commercial - Adrak',
+                        media: [
+                            'FILM.png',
+                            'upload here: your-video.mp4'
+                        ],
+                        type: 'video',
+                        description: 'A dynamic commercial project for a streetwear brand combining bold visuals and urban aesthetics.'
+                    }
+                ]
+            },
+            'book-design': {
+                title: 'Book/Zine Design',
+                works: [
+                    {
+                        name: 'Book 1',
+                        media: [
+                            'book.jpeg',
+                            'page1.jpeg',
+                            'page2.jpeg'
+                        ],
+                        type: 'images',
+                        description: 'This project explores how clothing and adornment across Asia function as forms of cultural identity and resistance. The book presents garments such as khadi, sarees, and traditional textiles as symbols of memory, survival, and political expression. Through curated visuals and glossary-style entries, the publication highlights how fashion can communicate history and collective struggle. The project combines editorial design and visual storytelling to present fashion as a cultural and political narrative.'
+                    },
+                    {
+                        name: 'Book/Zine Work 2',
+                        media: [
+                            'vncover.jpeg',
+                            'vn1.jpeg',
+                            'vn2.jpeg'
+                        ],
+                        type: 'images',
+                        description: 'This collaborative project explores supernatural folklore associated with historic Indian forts through an interactive book format. Each section presents a different fort and its haunting legends using narrative storytelling, symbolism, and layered visuals. The design combines history with eerie folklore to create an immersive reading experience for young audiences. Through interactive elements and atmospheric visuals, the project aims to keep cultural stories engaging and memorable.'
+                    },
+                    {
+                        name: 'Book/Zine Work 3',
+                        media: [
+                            'zcover.jpeg',
+                            'z1.jpeg',
+                            'z2.jpeg'
+                        ],
+                        type: 'images',
+                        description: 'This zine examines royal symbols from early Indian dynasties and interprets them as early forms of branding and identity systems. Through illustrated studies, it analyses motifs such as lions, garudas, tigers, and twin fish used on coins, seals, and emblems. The project reframes these historical symbols through a contemporary graphic design lens, highlighting ideas of recognisability, repetition, and symbolism. The final outcome is an interactive zine exploring how visual identity functioned long before modern branding.'
+                    }
+                ]
+            }
+        };
+        
+        function showWorks(subject) {
+            var data = worksData[subject];
+            
+            if (!data) return;
+            
+            worksTitle.textContent = data.title;
+            worksContainer.innerHTML = '';
+            
+            data.works.forEach(function(work, index) {
+                var alignment = index % 2 === 0 ? 'left' : 'right';
+                var mediaHTML = '';
+                var singleClass = work.media.length === 1 ? 'single-image' : '';
+                
+                if (work.type === 'video-only') {
+                    mediaHTML = `
+                        <div class="work-image-container single-image" data-work-index="${index}">
+                            <video src="${work.media[0]}" class="work-media" controls></video>
+                        </div>
+                    `;
+                } else if (work.type === 'video') {
+                    mediaHTML = `
+                        <div class="work-image-container ${singleClass}" data-work-index="${index}">
+                            <img src="${work.media[0]}" class="work-media media-item active" data-index="0">
+                            <video src="${work.media[1]}" class="work-media media-item" data-index="1" controls style="display:none;"></video>
+                            <div class="media-nav prev" onclick="changeMedia(${index}, -1)">‹</div>
+                            <div class="media-nav next" onclick="changeMedia(${index}, 1)">›</div>
+                            <div class="image-counter"><span class="current-index">1</span>/${work.media.length}</div>
+                        </div>
+                    `;
+                } else {
+                    var imagesHTML = work.media.map(function(img, i) {
+                        return `<img src="${img}" class="work-media media-item ${i === 0 ? 'active' : ''}" data-index="${i}" style="${i === 0 ? '' : 'display:none;'}">`;
+                    }).join('');
+                    
+                    mediaHTML = `
+                        <div class="work-image-container ${singleClass}" data-work-index="${index}">
+                            ${imagesHTML}
+                            <div class="media-nav prev" onclick="changeMedia(${index}, -1)">‹</div>
+                            <div class="media-nav next" onclick="changeMedia(${index}, 1)">›</div>
+                            ${work.media.length > 1 ? '<div class="image-counter"><span class="current-index">1</span>/' + work.media.length + '</div>' : ''}
+                        </div>
+                    `;
+                }
+                
+                var workHTML = `
+                    <div class="work-item ${alignment}">
+                        ${mediaHTML}
+                        <div class="work-text">
+                            <h3 class="work-name">${work.name}</h3>
+                            <p class="work-description">${work.description}</p>
+                        </div>
+                    </div>
+                `;
+                
+                worksContainer.innerHTML += workHTML;
+            });
+            
+            subjectsPage.classList.add('hidden');
+            worksPage.classList.add('show');
+        }
+        
+        function changeMedia(workIndex, direction) {
+            var container = document.querySelector('[data-work-index="' + workIndex + '"]');
+            var items = container.querySelectorAll('.media-item');
+            var counter = container.querySelector('.current-index');
+            var currentIndex = 0;
+            
+            items.forEach(function(item, i) {
+                if (item.classList.contains('active') || item.style.display !== 'none') {
+                    currentIndex = i;
+                }
+            });
+            
+            items[currentIndex].classList.remove('active');
+            items[currentIndex].style.display = 'none';
+            if (items[currentIndex].tagName === 'VIDEO') {
+                items[currentIndex].pause();
+            }
+            
+            var newIndex = (currentIndex + direction + items.length) % items.length;
+            
+            items[newIndex].classList.add('active');
+            items[newIndex].style.display = 'block';
+            
+            if (counter) {
+                counter.textContent = newIndex + 1;
+            }
+        }
+        
+        function backToSubjects() {
+            worksPage.classList.remove('show');
+            subjectsPage.classList.remove('hidden');
+        }
+        
+        function goBack() {
+            window.history.back();
+        }
     </script>
-  </body>
+    
+</body>
 </html>
